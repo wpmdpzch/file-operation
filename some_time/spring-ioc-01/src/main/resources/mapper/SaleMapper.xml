@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.javafirst.dao.SaleDao">
+
+    <!--    通过对象增加记录-->
+    <insert id="insertSale">
+        insert into sale (gid,num) values (#{gid},#{num})
+    </insert>
+
+    <!--  SQL片段  -->
+    <sql id="select_front">
+        select * from sale
+    </sql>
+</mapper>

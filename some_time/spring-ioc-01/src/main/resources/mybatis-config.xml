@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="db.properties">
+    </properties>
+
+    <settings>
+        <!--  开启驼峰命名映射  -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--  配置日志  -->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="com.javafirst.bean.TVSeriesBean" alias="series_bean"/>
+        <typeAlias type="com.javafirst.data.Sale" alias="sale"/>
+        <typeAlias type="com.javafirst.data.Goods" alias="goods"/>
+    </typeAliases>
+
+    <environments default="development">
+        <!--    开发环境    -->
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <!-- mysql驱动-->
+<!--                <property name="driver" value="com.mysql.jdbc.Driver" />-->
+                <property name="driver" value="${driver}" />
+                <!-- 指定数据库开放的端口、要连接的数据库名、编码方式-->
+<!--                <property name="url"-->
+<!--                          value="jdbc:mysql://39.105.195.254:3306/dev_test?characterEncoding=utf8&amp;useSSL=false"/>-->
+                <property name="url" value="${url}"/>
+                <!-- mysql用户名-->
+                <property name="username" value="${username}"/>
+                <!-- mysql登录密码-->
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+
+    </environments>
+
+    <mappers>
+        <!--  这里配置每个mapper文件 -->
+        <mapper resource="mapper/TVSeriesMapper.xml"/>
+        <mapper resource="mapper/SaleMapper.xml"/>
+        <mapper resource="mapper/GoodsMapper.xml"/>
+    </mappers>
+
+</configuration>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--  声明java Bean对象
+            id：必须唯一，如果不自定义，Spring会自动指定
+            class：接口实现类（可以是实体类本身，也可以是实体类的子类，还可以是接口的实现类）
+      -->
+
+    <context:property-placeholder location="db.properties"/>
+
+    <!--目标对象-->
+    <bean id="someService" class="com.javafirst.service.impl.SomeServiceImpl"/>
+
+    <bean id="sysDate" class="java.util.Date"/>
+
+    <!--切面类-->
+    <bean id="my_handle" class="com.javafirst.handle.MyAspect"/>
+
+    <!--  代理生成器  -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <bean id="myStudent" class="com.javafirst.data.MyStudent">
+        <property name="name" value="張三"/>
+        <property name="age" value="20"/>
+        <property name="school" ref="school"/>
+    </bean>
+
+    <bean id="school" class="com.javafirst.data.School">
+        <property name="name" value="HEU"/>
+        <property name="address" value="上海"/>
+    </bean>
+
+    <!-- 声明数据源-->
+    <bean id="myDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+    </bean>
+
+    <!--  声明 SQLSessionFactoryBean  -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="myDataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+
+    <!--  声明 MapperScannerConfigurer  -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+
+        <property name="basePackage" value="com.javafirst.dao"/>
+    </bean>
+
+    <bean id="buyGoods" class="com.javafirst.service.impl.GoodsServiceImpl">
+        <!--        <property name="saleDao" ref="saleDao"/>-->
+        <!--        <property name="goodsDao" ref="goodsDao"/>-->
+    </bean>
+
+    <!--  声明事务管理器  -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--    给事务管理器指定 要管理哪里的数据源    -->
+        <property name="dataSource" ref="myDataSource"/>
+    </bean>
+
+    <!--  声明事务管理器驱动  -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+</beans>

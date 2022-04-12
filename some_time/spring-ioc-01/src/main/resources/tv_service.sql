@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS `tv_series`(
+   `tv_id` INT UNSIGNED AUTO_INCREMENT,
+   `tv_title` VARCHAR(100) NOT NULL,
+   `tv_sub_title` VARCHAR(100),
+   `tv_type` INT,
+   PRIMARY KEY ( `tv_id` )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS sale(
+   id INT UNSIGNED AUTO_INCREMENT,
+   gid INT,
+   num INT,
+   PRIMARY KEY ( id )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS goods(
+   id INT UNSIGNED AUTO_INCREMENT,
+   name VARCHAR(100),
+   account INT,
+   price FLOAT,
+   PRIMARY KEY ( id )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;

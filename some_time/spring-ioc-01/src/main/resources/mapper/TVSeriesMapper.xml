@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.javafirst.dao.TVSeriesDao">
+    <!--  查询所有记录  -->
+    <select id="selectTVSeriesAll" resultType="series_bean">
+        <!--        select * from tv_series-->
+        <include refid="select_front"></include>
+        <!--        where tv_id=#{tvId}-->
+    </select>
+
+    <insert id="addTVSeriesOne">
+        insert into tv_series (tv_title,tv_sub_title,tv_type) values (#{param1},#{param2},#{param3})
+    </insert>
+
+    <!--    通过对象增加记录-->
+    <insert id="addTVSeriesObject">
+        insert into tv_series (tv_title,tv_sub_title,tv_type) values (#{tvTitle},#{tvSubTitle},#{tvType})
+    </insert>
+
+    <!--  删除记录 根据ID  -->
+    <delete id="deleteTVSeriesBeanById">
+        delete from tv_series where tv_id = #{tvId}
+    </delete>
+
+    <!--  更新记录 根据ID  -->
+    <update id="updateTVSeriesBeanTitleById">
+        update tv_series set tv_title = #{param2} where tv_id = #{param1}
+    </update>
+
+    <!--  SQL片段  -->
+    <sql id="select_front">
+        select * from tv_series
+    </sql>
+
+    <!--  动态SQL-if  -->
+    <select id="selectByDynamicSQL_if" parameterType="map" resultType="series_bean">
+        <include refid="select_front"></include>
+        <where>
+            <if test="title!=null and ''!=title">
+                and tv_title=#{title}
+            </if>
+
+            <if test="type gt 0 and type lt 20">
+                or tv_type = #{type}
+            </if>
+        </where>
+    </select>
+    <!--  动态SQL-choose-when-otherwise  -->
+    <select id="selectByDynamicSQL_choose" parameterType="map" resultType="series_bean">
+        <include refid="select_front"></include>
+        <where>
+            <choose>
+                <when test="type == 6">
+                    tv_type = #{type}
+                </when>
+                <when test="title == null or title == ''">
+                    tv_title = '《人民的名义》'
+                </when>
+                <otherwise>
+                    tv_id = #{id}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--    动态sql for each 第一种基本数据类型-->
+    <select id="selectByDynamicSQL_foreach" resultType="series_bean">
+        <include refid="select_front"></include>
+        <if test="list != null and list.size > 0">
+            where tv_id in
+            <foreach collection="list" open="(" close=")" item="ids" separator=",">
+                #{ids}
+            </foreach>
+        </if>
+    </select>
+
+    <!--    动态sql for each第二种对象方式-->
+    <select id="selectByDynamicSQL_foreachByObject" resultType="series_bean">
+        <include refid="select_front"></include>
+        <if test="list != null and list.size > 0">
+            where tv_id in
+            <foreach collection="list" open="(" close=")" item="series" separator=",">
+                #{series.tvId}
+            </foreach>
+        </if>
+    </select>
+</mapper>

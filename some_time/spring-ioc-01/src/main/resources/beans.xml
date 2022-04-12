@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--  声明java Bean对象
+            id：必须唯一，如果不自定义，Spring会自动指定
+            class：接口实现类（可以是实体类本身，也可以是实体类的子类，还可以是接口的实现类）
+      -->
+    <!--目标对象-->
+    <bean id="someService" class="com.javafirst.service.impl.SomeServiceImpl"/>
+
+    <bean id="sysDate" class="java.util.Date"/>
+
+    <!--切面类-->
+    <bean id="my_handle" class="com.javafirst.handle.MyAspect"/>
+
+    <!--  代理生成器  -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <bean id="myStudent" class="com.javafirst.data.MyStudent">
+        <property name="name" value="張三"/>
+        <property name="age" value="20"/>
+        <property name="school" ref="school"/>
+    </bean>
+
+    <bean id="school" class="com.javafirst.data.School">
+        <property name="name" value="HEU"/>
+        <property name="address" value="上海"/>
+    </bean>
+
+    <bean id="buyGoods" class="com.javafirst.service.impl.GoodsServiceImpl">
+<!--        <property name="saleDao" ref="saleDao"/>-->
+<!--        <property name="goodsDao" ref="goodsDao"/>-->
+    </bean>
+
+</beans>

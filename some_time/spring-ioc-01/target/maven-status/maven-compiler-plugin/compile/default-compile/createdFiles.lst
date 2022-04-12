@@ -1,0 +1,10 @@
+com\javafirst\data\MyStudent.class
+com\javafirst\Main.class
+com\javafirst\dao\TVSeriesDao.class
+com\javafirst\bean\TVSeriesBean.class
+com\javafirst\handle\MyAspect.class
+com\javafirst\TestDD.class
+com\javafirst\utils\MyBatisUtil.class
+com\javafirst\service\impl\SomeServiceImpl.class
+com\javafirst\service\SomeService.class
+com\javafirst\data\School.class
